@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- we add graph view to display -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="33dp" />
+
+<!--        <Button-->
+<!--            android:id="@+id/btn"-->
+<!--            android:layout_width="147dp"-->
+<!--            android:layout_height="74dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_marginStart="129dp"-->
+<!--            android:layout_marginEnd="65dp"-->
+<!--            android:layout_marginBottom="350dp"-->
+<!--            android:text="Click" />-->
+    </RelativeLayout>
+</FrameLayout>
