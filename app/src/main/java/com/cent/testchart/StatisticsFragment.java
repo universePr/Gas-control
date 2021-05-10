@@ -53,6 +53,7 @@ public class StatisticsFragment extends Fragment {
         viewport.setScrollable(true);
         graph.setTitle("CPU Graph test");
         viewport.setBorderColor(Color.DKGRAY);
+
 //        btn  = container.findViewById(R.id.btn);
 
 //        setClickListener();
