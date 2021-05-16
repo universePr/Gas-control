@@ -9,21 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+//
+//import com.jjoe64.graphview.GraphView;
+//import com.jjoe64.graphview.Viewport;
+//import com.jjoe64.graphview.series.DataPoint;
+//import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class StatisticsFragment extends Fragment {
 
-    private LineGraphSeries<DataPoint> series;
-    private int lastX = 0;
-    private Viewport viewport ;
-    private GraphView graph;
+//    private LineGraphSeries<DataPoint> series;
+//    private int lastX = 0;
+//    private Viewport viewport ;
+//    private GraphView graph;
     private DrawerLayout dLayout;
     private View container;
 //    private Button btn;
@@ -43,6 +43,7 @@ public class StatisticsFragment extends Fragment {
 
     }
     private void init_() {
+/*
         graph = (GraphView) container.findViewById(R.id.graph);
         series = new LineGraphSeries<DataPoint>();
         graph.addSeries(series);
@@ -53,6 +54,7 @@ public class StatisticsFragment extends Fragment {
         viewport.setScrollable(true);
         graph.setTitle("CPU Graph test");
         viewport.setBorderColor(Color.DKGRAY);
+ */
 
 //        btn  = container.findViewById(R.id.btn);
 
@@ -104,7 +106,7 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeGraph();
+//        changeGraph();
 
     }
 
@@ -137,6 +139,7 @@ public class StatisticsFragment extends Fragment {
     }
     // add random data to graph
     private void addEntry() {
+        /*
         series.appendData(new DataPoint(lastX++, readUsage() * 100f), false, 20);
         synchronized (viewport){
             viewport.notify();
@@ -146,6 +149,7 @@ public class StatisticsFragment extends Fragment {
             series.notify();
             series.notifyAll();
         }
+         */
     }
     public void click(View view) {
         Toast.makeText(container.getContext() , "Test Graph", Toast.LENGTH_LONG).show();
