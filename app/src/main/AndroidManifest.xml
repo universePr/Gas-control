@@ -3,7 +3,7 @@
     package="com.cent.testchart">
 
     <uses-permission android:name="android.permission.SEND_SMS"/>
-
+<!--     android:name="androidx.multidex.MultiDexApplication" -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
