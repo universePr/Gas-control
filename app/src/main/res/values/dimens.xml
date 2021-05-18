@@ -2,4 +2,9 @@
 <resources>
     <dimen name="activitymargin">12dp</dimen>
     <dimen name="margin_from_appbar">20dp</dimen>
+    <dimen name="margin_card">8dp</dimen>
+    <dimen name="font_size_gas_name">14sp</dimen>
+    <dimen name="hidden_layout_default">20dp</dimen>
+    <dimen name="cardview_square_size">250dp</dimen>
+    <dimen name="cardview_radius_size">15dp</dimen>
 </resources>
