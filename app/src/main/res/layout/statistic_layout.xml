@@ -6,66 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- we add graph view to display -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame_pages_gas"/>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/cardview_square_size"
-        android:layout_height="@dimen/cardview_square_size"
-        app:cardCornerRadius="@dimen/cardview_radius_size"
-        android:id="@+id/card_chart">
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/gas_pages"
+        android:background="@color/white"
+        android:layout_gravity="bottom|center"/>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.anychart.AnyChartView
-                android:id="@+id/any_chart_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </com.anychart.AnyChartView>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/hidden_v"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/hidden_layout_default"
-            android:layout_gravity="bottom"
-            android:background="@color/white"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/gas_name_v"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/needle"
-            android:layout_margin="@dimen/margin_card"
-            android:textSize="@dimen/font_size_gas_name"
-            android:layout_gravity="start|left"
-            android:text="~CO2" />
-    </androidx.cardview.widget.CardView>
-    <!--<com.cent.testchart.Any-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:id="@+id/any_chart_view"-->
-<!--    />-->
-<!--        <com.jjoe64.graphview.GraphView-->
-<!--            android:id="@+id/graph"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="300dp"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_marginBottom="33dp" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btn"-->
-<!--            android:layout_width="147dp"-->
-<!--            android:layout_height="74dp"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_marginStart="129dp"-->
-<!--            android:layout_marginEnd="65dp"-->
-<!--            android:layout_marginBottom="350dp"-->
-<!--            android:text="Click" />-->
     </FrameLayout>

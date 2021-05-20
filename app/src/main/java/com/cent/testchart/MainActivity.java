@@ -12,9 +12,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -66,11 +63,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                if(menuItem.getItemId() == R.id.nav_menu_statistic){
+                if(menuItem.getItemId() == R.id.menu_statistic){
                     Toast.makeText(MainActivity.this, "Fragmant changing.", Toast.LENGTH_LONG).show();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, new StatisticsFragment());
                     ft.commit();
+                    drawerLayout.closeDrawers();
+                }
+                if(menuItem.getItemId() == R.id.menu_about){
+                    Toast.makeText(MainActivity.this, "Fragmant changing.", Toast.LENGTH_LONG).show();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, new CarbonFragment());
+                    ft.commit();
+                    drawerLayout.closeDrawers();
                 }
 
                 else if(menuItem.getItemId() == R.id.menu_exit){
@@ -88,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame, new StatisticsFragment());
         ft.commit();
+    }
+    public void click(View view) {
+        Toast.makeText(this , "Test Graph", Toast.LENGTH_LONG).show();
     }
 /*
     public boolean onCreateOptionsMenu(Menu menu) {

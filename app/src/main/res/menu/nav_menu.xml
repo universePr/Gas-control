@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/nav_menu_statistic" android:title="@string/nav_menu_statistic" />
+    <item android:id="@+id/menu_statistic" android:title="@string/nav_menu_statistic" />
     <group >
     <item android:id="@+id/menu_connect" android:title="@string/nav_menu_connect" />
     <item android:id="@+id/menu_bluetooth"  android:title="@string/nav_menu_bluetooth"/>
