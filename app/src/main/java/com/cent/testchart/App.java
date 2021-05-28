@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+public class App extends AppCompatActivity {
 
     Fragment mNavigationDrawerFragment;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_app);
 
         init_();
 
@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void init_() {
 
-        navigationView = findViewById(R.id.nav_view);
+//        navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
         frameLayout = findViewById(R.id.frame);
-        mToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -56,24 +56,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, 0, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            drawerToggle.getDrawerArrowDrawable().setColor(getColor(R.color.vector));
+        }else{
+            drawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.vector));
+        }
         drawerToggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view); // initiate a Navigation View
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
+                //TODO: Disable one state and two click
                 if(menuItem.getItemId() == R.id.menu_statistic){
-                    Toast.makeText(MainActivity.this, "Fragmant changing.", Toast.LENGTH_LONG).show();
+
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, new StatisticsFragment());
                     ft.commit();
                     drawerLayout.closeDrawers();
                 }
                 if(menuItem.getItemId() == R.id.menu_about){
-                    Toast.makeText(MainActivity.this, "Fragmant changing.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(App.this, "Fragmant changing.", Toast.LENGTH_LONG).show();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frame, new CarbonFragment());
+                    ft.replace(R.id.frame, new coFragment());
                     ft.commit();
                     drawerLayout.closeDrawers();
                 }

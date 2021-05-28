@@ -2,12 +2,20 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_statistic" android:title="@string/nav_menu_statistic" />
-    <group >
-    <item android:id="@+id/menu_connect" android:title="@string/nav_menu_connect" />
-    <item android:id="@+id/menu_bluetooth"  android:title="@string/nav_menu_bluetooth"/>
-    </group>
-    <item android:id="@+id/menu_sms" android:title="@string/nav_menu_sms" />
-    <item android:id="@+id/menu_about" android:title="@string/nav_menu_about" />
-    <item android:id="@+id/menu_exit" android:title="@string/nav_menu_exit"   />
+
+    <item
+        android:icon="@drawable/ic_baseline_bar_chart_24"
+        android:id="@+id/menu_statistic" android:title="@string/nav_menu_statistic" />
+
+    <item android:icon="@drawable/ic_baseline_bluetooth_connected_24"
+        android:id="@+id/menu_connect" android:title="@string/nav_menu_connect" />
+
+    <item android:icon="@drawable/ic_baseline_sms_24"
+        android:id="@+id/menu_sms" android:title="@string/nav_menu_sms" />
+    <item
+        android:icon="@drawable/ic_baseline_info_24"
+        android:id="@+id/menu_about" android:title="@string/nav_menu_about" />
+    <item
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:id="@+id/menu_exit" android:title="@string/nav_menu_exit"   />
 </menu>

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CarbonFragment">
+    tools:context=".coFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <include layout="@layout/card_co2_layout"
+    <include layout="@layout/card_co_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 

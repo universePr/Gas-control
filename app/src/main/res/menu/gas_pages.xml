@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/co2"
-        android:icon="@drawable/ic_co2_gas"
-        android:title="@string/co2"
+        android:id="@+id/co"
+
+        android:title="@string/co"
         />
     <item
-        android:id="@+id/methane"
-        android:icon="@drawable/ic_cdn_dribbble_com_shot_cropped_1572096519323"
-        android:title="@string/Methane" />
+        android:id="@+id/lpg"
+
+        android:title="@string/lpg" />
+    <item
+        android:id="@+id/Smoke"
+
+        android:title="@string/smoke" />
+
 </menu>

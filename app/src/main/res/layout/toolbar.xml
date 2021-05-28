@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/purple_500"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/design_default_color_primary"
+        android:background="@color/toolbar"
         android:id="@+id/toolbar"
         app:title="@string/app_name"
-
+        app:titleTextColor="@color/black"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
 </RelativeLayout>

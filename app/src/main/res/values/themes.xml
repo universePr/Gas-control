@@ -5,6 +5,16 @@
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
         <item name="colorAccent">@color/teal_200</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.TestChart.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.TestChart.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TestChart.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

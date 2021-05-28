@@ -26,7 +26,7 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.statistic_layout, container, false);
+        return inflater.inflate(R.layout.static_layout, container, false);
     }
 
     @Override
@@ -37,14 +37,15 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void init_() {
+
         BottomNavigationView bottomNavigationMenu = container.findViewById(R.id.bottom_navigation);
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if(menuItem.getItemId() == R.id.co2){
-                    Toast.makeText(container.getContext(), "Fragmant changing.", Toast.LENGTH_LONG).show();
+                if(menuItem.getItemId() == R.id.co){
+                    //Toast.makeText(container.getContext(), "Fragmant changing.", Toast.LENGTH_LONG).show();
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.add(R.id.frame_pages_gas, new CarbonFragment());
+                    ft.add(R.id.frame_gas, new coFragment());
                     ft.commit();
 
                 }
@@ -52,7 +53,8 @@ public class StatisticsFragment extends Fragment {
                 return false;
             }
         });
-        bottomNavigationMenu.setSelectedItemId(R.id.co2);
+        bottomNavigationMenu.setSelectedItemId(R.id.co);
+
     }
 
 }

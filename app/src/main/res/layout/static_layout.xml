@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_500"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/frame_gas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/purple_500"/>
+    <View
+        android:id="@+id/sep_v2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="top"
+        android:background="@color/black"
+        android:visibility="visible"
+        android:layout_alignTop="@id/bottom_navigation"
+        />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/gas_pages"
+        app:itemIconTint="@color/vector"
+        android:layout_gravity="bottom"
+        android:layout_alignBottom="@id/frame_gas"
+        app:itemTextColor="@color/vector"
+        android:id="@+id/bottom_navigation"
+        />
+
+
+</RelativeLayout>

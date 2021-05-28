@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CPU Graph</string>
+    <string name="app_name">Smart Check</string>
     <string name="nav_menu_statistic">Statistics</string>
     <string name="nav_menu_connect">Connect to the sensor</string>
     <string name="nav_menu_bluetooth">Bluetooth Enable</string>
@@ -10,4 +10,18 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="co2">Carbon </string>
     <string name="Methane">Methane</string>
+    <string name="co_gas">CO</string>
+    <string name="carbon_monoxid">Carbon monoxid</string>
+    <string name="lpg">LPG</string>
+    <string name="co">CO</string>
+    <string name="smoke">Smoke</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

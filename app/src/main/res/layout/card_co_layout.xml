@@ -4,11 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/card_chart_co2"
+    android:background="@color/purple_500"
     cardCornerRadius="@dimen/cardview_radius_size">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/cons_hid"
+        android:background="@color/purple_500">
 
         <com.anychart.AnyChartView
             android:id="@+id/any_chart_view_co2"
@@ -34,8 +37,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start|left"
         android:layout_margin="@dimen/margin_card"
-        android:text="~CO2"
-        android:textColor="@color/needle"
+        android:text="@string/carbon_monoxid"
+        android:fontFamily="@font/comfortaa"
+        android:textColor="@color/black"
+        android:textFontWeight="240"
         android:textSize="@dimen/font_size_gas_name" />
 
 </androidx.cardview.widget.CardView>

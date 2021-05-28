@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -23,11 +24,11 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 
-public class CarbonFragment extends Fragment {
+public class coFragment extends Fragment {
 
     private View container;
 
-    public CarbonFragment() {
+    public coFragment() {
         // Required empty public constructor
     }
 
@@ -43,7 +44,7 @@ public class CarbonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_carbon, container, false);
+        return inflater.inflate(R.layout.fragment_co, container, false);
     }
     private void init_() {
 
@@ -60,7 +61,9 @@ public class CarbonFragment extends Fragment {
         anyChartView =  (AnyChartView) container.findViewById(R.id.any_chart_view_co2);
         hidden_v = container.findViewById(R.id.hidden_v);
         card = container.findViewById(R.id.card_chart_co2);
-        hidden_v.getLayoutParams().height = (int) ((0.085) * card.getLayoutParams().height);
+//        int height =  (int) (anyChartView.getLayoutParams().height) - 100;
+//        hidden_v.getLayoutParams().height = height;
+//        Toast.makeText(container.getContext(),  container.getLayoutParams().height + "" , Toast.LENGTH_LONG).show();
         circularGauge = AnyChart.circular();
         settingUpCircularGauge();
         anyChartView.setChart(circularGauge);
