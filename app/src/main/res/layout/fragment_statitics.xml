@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.StatiticsFragment">
+
+    <com.anychart.AnyChartView
+        android:id="@+id/chart_past_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.anychart.AnyChartView>
+
+    <View
+        android:id="@+id/band_hide"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hidden_layout_default_2"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:visibility="visible"/>
+
+</FrameLayout>

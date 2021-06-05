@@ -1,32 +1,32 @@
-package com.cent.testchart;
+package com.cent.testchart.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cent.testchart.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-public class StatisticsFragment extends Fragment {
+public class LiveStatisticsFragment extends Fragment {
 
     private View container;
 
 
-    public StatisticsFragment() {
+    public LiveStatisticsFragment() {
 
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.static_layout, container, false);
+        return inflater.inflate(R.layout.live_static_layout, container, false);
     }
 
     @Override

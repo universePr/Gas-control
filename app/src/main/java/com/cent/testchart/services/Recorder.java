@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.cent.testchart.App;
+import com.cent.testchart.constants.Constants;
 import com.cent.testchart.data.Data;
 import com.cent.testchart.database.Commit2DB;
 
@@ -88,7 +89,10 @@ public class Recorder extends Service {
         timerTask = new TimerTask() {
             public void run() {
                 calendar = Calendar.getInstance();
-                commit2DB.insertData(new Data(App.amount, calendar.getTime().toString()));
+                String date = calendar.getTime().toString();
+                commit2DB.insertData(new Data(App.amount_co, date , Constants.tag_co ));
+                commit2DB.insertData(new Data(App.amount_co + 5, date, Constants.tag_lpg ));
+                commit2DB.insertData(new Data(App.amount_co + 10, date, Constants.tag_smoke ));
             }
         };
         timer.schedule(timerTask, 1000, 2 * 60 * 1000); //

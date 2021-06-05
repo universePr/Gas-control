@@ -1,15 +1,15 @@
 package com.cent.testchart;
 
 import android.app.ActivityManager;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.cent.testchart.data.Data;
 import com.cent.testchart.database.Commit2DB;
+import com.cent.testchart.fragments.LiveStatisticsFragment;
+import com.cent.testchart.fragments.StatiticsFragment;
 import com.cent.testchart.services.Recorder;
 import com.google.android.material.navigation.NavigationView;
 
@@ -33,7 +33,9 @@ import androidx.appcompat.widget.Toolbar;
 public class App extends AppCompatActivity {
 
     public static Context app_context;
-    public static int amount = 0; //TODO: For share blutooth data to service
+
+    public static int amount_co = 0; //TODO: For share bluetooth data to service
+
 
     private Toolbar mToolbar;
     private NavigationView navigationView;
@@ -59,11 +61,19 @@ public class App extends AppCompatActivity {
             init_service();
         }
 
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                amount_co++;
+                handler.postDelayed(this, 2000);
+            }
+        });
+
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void init_() {
 
-//        navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
         frameLayout = findViewById(R.id.frame);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,13 +103,15 @@ public class App extends AppCompatActivity {
                 if(menuItem.getItemId() == R.id.menu_live_statistic){
 
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frame, new StatisticsFragment());
+                    ft.replace(R.id.frame, new LiveStatisticsFragment());
                     ft.commit();
                     drawerLayout.closeDrawers();
                 }
-                if(menuItem.getItemId() == R.id.menu_about){
-                    Toast.makeText(App.this, "Fragmant changing.", Toast.LENGTH_LONG).show();
-
+                if(menuItem.getItemId() == R.id.menu_past_statistics){
+//                    Toast.makeText(App.this, "During the last 30 days.", Toast.LENGTH_LONG).show();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, new StatiticsFragment());
+                    ft.commit();
                     drawerLayout.closeDrawers();
                 }
 
@@ -150,7 +162,7 @@ public class App extends AppCompatActivity {
 
     private void default_() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame, new StatisticsFragment());
+        ft.replace(R.id.frame, new LiveStatisticsFragment());
         ft.commit();
 
     }

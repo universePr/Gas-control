@@ -1,4 +1,4 @@
-package com.cent.testchart;
+package com.cent.testchart.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.SingleValueDataSet;
 import com.anychart.enums.Anchor;
 import com.anychart.enums.HAlign;
+import com.cent.testchart.R;
 
 import java.io.File;
 import java.io.IOException;
