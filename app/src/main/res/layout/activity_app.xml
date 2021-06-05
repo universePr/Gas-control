@@ -41,9 +41,9 @@
 
 
     <com.google.android.material.navigation.NavigationView
-
+            app:itemHorizontalPadding="@dimen/padding_item"
             android:id="@+id/nav_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
@@ -51,7 +51,10 @@
             android:background="@color/white"
             app:itemTextColor="@color/black"
             app:itemIconTint="@color/vector"
-            app:menu="@menu/nav_menu" />
+            app:menu="@menu/nav_menu"
+            app:itemIconPadding="@dimen/padding_item"
+
+        />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

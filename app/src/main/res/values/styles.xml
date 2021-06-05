@@ -6,4 +6,8 @@
     <style name="nightDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/black</item>
     </style>
+    <style name="TextAppearance1">
+        <item name="android:textColor">@color/needle</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>

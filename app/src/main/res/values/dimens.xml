@@ -10,4 +10,5 @@
     <dimen name="internal_padding">8dp</dimen>
     <dimen name="title_padding">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_item">9dp</dimen>
 </resources>

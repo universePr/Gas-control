@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Smart Check</string>
-    <string name="nav_menu_statistic">Statistics</string>
+    <string name="app_name">Safe Home</string>
+    <string name="nav_menu_live_statistic">Live Statistics</string>
     <string name="nav_menu_connect">Connect to the sensor</string>
     <string name="nav_menu_bluetooth">Bluetooth Enable</string>
     <string name="nav_menu_sms">Sms number</string>
@@ -24,4 +24,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="nav_menu_past_statistic">Past statistics</string>
+    <string name="statistics">Statistics</string>
 </resources>

@@ -1,10 +1,16 @@
 package com.cent.testchart;
 
+import android.app.ActivityManager;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.cent.testchart.data.Data;
+import com.cent.testchart.database.Commit2DB;
+import com.cent.testchart.services.Recorder;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -12,6 +18,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.SpannableString;
+import android.text.style.TextAppearanceSpan;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,12 +32,18 @@ import androidx.appcompat.widget.Toolbar;
 
 public class App extends AppCompatActivity {
 
-    Fragment mNavigationDrawerFragment;
+    public static Context app_context;
+    public static int amount = 0; //TODO: For share blutooth data to service
 
-    Toolbar mToolbar;
-    NavigationView navigationView;
-    DrawerLayout drawerLayout;
-    FrameLayout frameLayout;
+    private Toolbar mToolbar;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private FrameLayout frameLayout;
+    private Commit2DB commit2DB;
+
+    Intent mServiceIntent;
+    private Recorder mYourService;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -34,10 +51,15 @@ public class App extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
 
+        app_context = this;
+
         init_();
+        init_db();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            init_service();
+        }
 
     }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void init_() {
 
@@ -68,7 +90,7 @@ public class App extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //TODO: Disable one state and two click
-                if(menuItem.getItemId() == R.id.menu_statistic){
+                if(menuItem.getItemId() == R.id.menu_live_statistic){
 
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, new StatisticsFragment());
@@ -77,49 +99,60 @@ public class App extends AppCompatActivity {
                 }
                 if(menuItem.getItemId() == R.id.menu_about){
                     Toast.makeText(App.this, "Fragmant changing.", Toast.LENGTH_LONG).show();
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frame, new coFragment());
-                    ft.commit();
+
                     drawerLayout.closeDrawers();
                 }
 
                 else if(menuItem.getItemId() == R.id.menu_exit){
-                    System.exit(0);
+                    onBackPressed();
                 }
                 return true;
             }
         });
+        Menu menu = navigationView.getMenu();
+
+        MenuItem Statistics= menu.findItem(R.id.statistics);
+        SpannableString s = new SpannableString(Statistics.getTitle());
+        s.setSpan(new TextAppearanceSpan(this, R.style.TextAppearance1), 0, s.length(), 0);
+        Statistics.setTitle(s);
 
         default_();
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void init_service() {
+        mYourService = new Recorder();
+        mServiceIntent = new Intent(this, mYourService.getClass());
+        if (!isMyServiceRunning(mYourService.getClass())) {
+            startService(mServiceIntent);
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean isMyServiceRunning(Class serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("Service status", "Running");
+                return true;
+            }
+        }
+        Log.i ("Service status", "Not running");
+        return false;
+    }
+
+    private void init_db() {
+        commit2DB = new Commit2DB(this);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+
     private void default_() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame, new StatisticsFragment());
         ft.commit();
-    }
-    public void click(View view) {
-        Toast.makeText(this , "Test Graph", Toast.LENGTH_LONG).show();
-    }
-/*
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.tool_bar_menu, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            default:
-                break;
-        }
 
-        return true;
     }
-*/
+
 }

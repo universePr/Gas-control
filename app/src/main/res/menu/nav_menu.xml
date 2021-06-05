@@ -2,10 +2,26 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item android:id="@+id/statistics"
+            android:title="@string/statistics"
+            >
+            <menu>
     <item
         android:icon="@drawable/ic_baseline_bar_chart_24"
-        android:id="@+id/menu_statistic" android:title="@string/nav_menu_statistic" />
+        android:id="@+id/menu_live_statistic"
+        android:title="@string/nav_menu_live_statistic"
+        android:checked="true"/>
+    <item
+        android:icon="@drawable/ic_baseline_list_alt_24"
+        android:id="@+id/menu_past_statistics"
+        android:title="@string/nav_menu_past_statistic"
+        android:checked="true"/>
+            </menu>
+        </item>
+    </group>
 
     <item android:icon="@drawable/ic_baseline_bluetooth_connected_24"
         android:id="@+id/menu_connect" android:title="@string/nav_menu_connect" />
