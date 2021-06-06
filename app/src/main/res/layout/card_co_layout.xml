@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start|left"
         android:layout_margin="@dimen/margin_card"
-        android:text="@string/carbon_monoxid"
+        android:text="@string/carbon_monoxide"
         android:fontFamily="@font/comfortaa"
         android:textColor="@color/black"
         android:textFontWeight="240"

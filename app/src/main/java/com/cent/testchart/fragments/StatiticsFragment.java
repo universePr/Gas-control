@@ -35,7 +35,7 @@ public class StatiticsFragment extends Fragment {
     private View container;
     private Commit2DB commit2DB;
     private ArrayList<com.cent.testchart.data.Data> list_data = new ArrayList<Data>();
-    private ArrayList<com.cent.testchart.data.Data> list_carbonmonoxid = new ArrayList<Data>();
+    private ArrayList<com.cent.testchart.data.Data> list_carbon_monoxide = new ArrayList<Data>();
     private ArrayList<com.cent.testchart.data.Data> list_lpg = new ArrayList<Data>();
     private ArrayList<com.cent.testchart.data.Data> list_smoke = new ArrayList<Data>();
 
@@ -83,13 +83,16 @@ public class StatiticsFragment extends Fragment {
         init_arrays();
 
         List<DataEntry> seriesData = new ArrayList<>();
-        for(int i = 0 ; i < 8 ; i++ ){
+        /*
+        for(int i = 0 ; i < 0 ; i++ ){
 
             seriesData.add(new CustomDataEntry(i +"",
-                    list_carbonmonoxid.get(i).getCount(),
+                    list_carbon_monoxide.get(i).getCount(),
                     list_lpg.get(i).getCount(),
                     list_smoke.get(i).getCount()));
         }
+        */
+
 
         Set set = Set.instantiate();
         set.data(seriesData);
@@ -98,7 +101,7 @@ public class StatiticsFragment extends Fragment {
         Mapping series3Mapping = set.mapAs("{ x: 'x', value: 'value3' }");
 
         Line series1 = cartesian.line(series1Mapping);
-        series1.name(Constants.carbon_monoxid);
+        series1.name(Constants.carbon_monoxide);
         series1.hovered().markers().enabled(true);
         series1.hovered().markers()
                 .type(MarkerType.CIRCLE)
@@ -157,7 +160,7 @@ public class StatiticsFragment extends Fragment {
     private void init_arrays() {
         list_data = commit2DB.getLatest30Days();
         for (int i = 0 ; i < list_data.size(); i+=3) {
-                list_carbonmonoxid.add(list_data.get(i));
+                list_carbon_monoxide.add(list_data.get(i));
                 list_lpg.add(list_data.get(i+1));
                 list_smoke.add(list_data.get(i+2));
 

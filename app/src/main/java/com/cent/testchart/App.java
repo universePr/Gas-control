@@ -1,8 +1,11 @@
 package com.cent.testchart;
 
+import android.Manifest;
 import android.app.ActivityManager;
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -14,6 +17,8 @@ import com.cent.testchart.services.Recorder;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +39,7 @@ public class App extends AppCompatActivity {
 
     public static Context app_context;
 
-    public static int amount_co = 0; //TODO: For share bluetooth data to service
+    public static int amount_co = 150; //TODO: For share bluetooth data to service
 
 
     private Toolbar mToolbar;
@@ -54,24 +59,18 @@ public class App extends AppCompatActivity {
         setContentView(R.layout.activity_app);
 
         app_context = this;
-
+        init_permissions();
         init_();
         init_db();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            init_service();
-        }
+        init_service();
 
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                amount_co++;
-                handler.postDelayed(this, 2000);
-            }
-        });
+
 
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+
+
+
     private void init_() {
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -132,7 +131,7 @@ public class App extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     private void init_service() {
         mYourService = new Recorder();
         mServiceIntent = new Intent(this, mYourService.getClass());
@@ -140,7 +139,7 @@ public class App extends AppCompatActivity {
             startService(mServiceIntent);
         }
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     private boolean isMyServiceRunning(Class serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -157,7 +156,44 @@ public class App extends AppCompatActivity {
         commit2DB = new Commit2DB(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void init_permissions() {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.SEND_SMS) ==
+                PackageManager.PERMISSION_GRANTED) {
+
+//            Toast.makeText(this, "Permission granted to send sms", Toast.LENGTH_SHORT).show();
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (shouldShowRequestPermissionRationale("android.permission.SEND_SMS")) {
+
+
+            } else {
+
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.SEND_SMS}, 1);
+
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(this, "Permission granted to send sms", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Toast.makeText(this, "Permission denied to send sms", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+        }
+    }
 
 
     private void default_() {

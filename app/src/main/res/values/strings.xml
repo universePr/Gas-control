@@ -11,7 +11,7 @@
     <string name="co2">Carbon </string>
     <string name="Methane">Methane</string>
     <string name="co_gas">CO</string>
-    <string name="carbon_monoxid">Carbon monoxid</string>
+    <string name="carbon_monoxide">Carbon monoxide</string>
     <string name="lpg">LPG</string>
     <string name="co">CO</string>
     <string name="smoke">Smoke</string>
@@ -26,4 +26,25 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="nav_menu_past_statistic">Past statistics</string>
     <string name="statistics">Statistics</string>
+    <string name="title_activity_intro">Intro</string>
+    <string name="title_activity_welcome">Home Screen</string>
+
+    <string name="skip">SKIP</string>
+    <string name="start">Ok</string>
+
+    <string name="slide_1_title">Hello There!</string>
+    <string name="slide_1_desc">Safe home program
+        Designed to smarten your property protection system against fire and toxic fumes.</string>
+
+    <string name="slide_2_title">Alert by sending sms</string>
+    <string name="slide_2_desc">Enter your phone number to make an emergency call</string>
+
+    <string name="slide_3_title">Great Discounts</string>
+    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+
+    <string name="slide_4_title">World Travel</string>
+    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
 </resources>

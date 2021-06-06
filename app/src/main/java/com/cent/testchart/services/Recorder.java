@@ -6,9 +6,11 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -26,6 +28,10 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.cent.testchart.constants.Constants.MyPREFERENCES;
+import static com.cent.testchart.constants.Constants.Phone;
+import static com.cent.testchart.constants.Constants.defPhone;
 
 public class Recorder extends Service {
 
@@ -93,10 +99,35 @@ public class Recorder extends Service {
                 commit2DB.insertData(new Data(App.amount_co, date , Constants.tag_co ));
                 commit2DB.insertData(new Data(App.amount_co + 5, date, Constants.tag_lpg ));
                 commit2DB.insertData(new Data(App.amount_co + 10, date, Constants.tag_smoke ));
+
+                if(App.amount_co > 100){
+                    sendSMS("carbon monoxide");
+                }
+
             }
         };
         timer.schedule(timerTask, 1000, 2 * 60 * 1000); //
     }
+
+    private void sendSMS(String gas){
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(
+                    sharedPreferences.getString(Phone, defPhone),
+                    null,
+                    "warning for the amount of "+gas+" gas in the air!",
+                    null,null);
+            Log.i("SEND SMS", "Send");
+
+        } catch (Exception e) {
+            Log.i("SEND SMS", "Error");
+            e.printStackTrace();
+        }
+        Log.i("SEND SMS", sharedPreferences.getString(Phone, defPhone));
+
+    }
+
     public void stopRecordetask() {
         if (timer != null) {
             timer.cancel();
