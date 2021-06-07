@@ -47,4 +47,7 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="not_found_data">There is no data to display.</string>
+
+    <string name="title_static_chart">During the last 7 days.</string>
 </resources>

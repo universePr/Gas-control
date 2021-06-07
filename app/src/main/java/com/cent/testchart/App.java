@@ -2,7 +2,6 @@ package com.cent.testchart;
 
 import android.Manifest;
 import android.app.ActivityManager;
-import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,7 +11,7 @@ import androidx.annotation.RequiresApi;
 
 import com.cent.testchart.database.Commit2DB;
 import com.cent.testchart.fragments.LiveStatisticsFragment;
-import com.cent.testchart.fragments.StatiticsFragment;
+import com.cent.testchart.fragments.StaticsFragment;
 import com.cent.testchart.services.Recorder;
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,7 +22,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
@@ -109,7 +107,7 @@ public class App extends AppCompatActivity {
                 if(menuItem.getItemId() == R.id.menu_past_statistics){
 //                    Toast.makeText(App.this, "During the last 30 days.", Toast.LENGTH_LONG).show();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frame, new StatiticsFragment());
+                    ft.replace(R.id.frame, new StaticsFragment());
                     ft.commit();
                     drawerLayout.closeDrawers();
                 }

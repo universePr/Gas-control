@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.StatiticsFragment">
+    tools:context=".fragments.StaticsFragment">
 
     <com.anychart.AnyChartView
         android:id="@+id/chart_past_statistics"
@@ -12,6 +12,20 @@
 
     </com.anychart.AnyChartView>
 
+    <TextView
+        android:id="@+id/tv_found_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="@dimen/desc_padding"
+        android:paddingRight="@dimen/desc_padding"
+        android:text="@string/not_found_data"
+        android:textAlignment="center"
+        android:textColor="@color/bg_screen1"
+        android:textSize="@dimen/slide_desc"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
     <View
         android:id="@+id/band_hide"
         android:layout_width="match_parent"
