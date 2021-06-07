@@ -112,7 +112,7 @@ public class Intro extends AppCompatActivity {
                                 ) {
                             Toast.makeText(Intro.this, "Invalid call number " , Toast.LENGTH_SHORT).show();
                         } else {
-                            insertPhoneNumberToSharedPref(phone_number);
+                            insertPhoneNumberToSharedPref("+"+phone_number);
                             launchHomeScreen();
                         }
                     }
