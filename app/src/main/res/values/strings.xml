@@ -12,6 +12,7 @@
     <string name="Methane">Methane</string>
     <string name="co_gas">CO</string>
     <string name="carbon_monoxide">Carbon monoxide</string>
+    <string name="lpg_gas">Liquefied petroleum gas</string>
     <string name="lpg">LPG</string>
     <string name="co">CO</string>
     <string name="smoke">Smoke</string>
@@ -50,4 +51,5 @@
     <string name="not_found_data">There is no data to display.</string>
 
     <string name="title_static_chart">During the last 7 days.</string>
+    <string name="submit_number">Submit number phone</string>
 </resources>

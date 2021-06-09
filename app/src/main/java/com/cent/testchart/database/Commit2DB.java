@@ -61,6 +61,7 @@ public class Commit2DB {
                 times.add(pref);
             }
         }
+
         database = dbHelper.getReadableDatabase();
         String query_find_max_in_day = "";
         ArrayList<Data> list_of_max_days = new ArrayList<>();

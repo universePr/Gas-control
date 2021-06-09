@@ -12,6 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import static com.cent.testchart.constants.Constants.MyPREFERENCES;
 import static com.cent.testchart.constants.Constants.Phone;
 
 
-public class Intro extends AppCompatActivity {
+public class Intro extends AppCompatActivity{
 
 
         private ViewPager viewPager;
@@ -103,6 +104,7 @@ public class Intro extends AppCompatActivity {
                         viewPager.setCurrentItem(current);
                     } else {
                         EditText editText = findViewById(R.id.edt_phonenumber);
+
                         String phone_number = editText.getText().toString();
 
                     if (        phone_number.equals("98")
@@ -118,6 +120,7 @@ public class Intro extends AppCompatActivity {
                     }
                 }
             });
+
         }
 
 
@@ -205,7 +208,8 @@ public class Intro extends AppCompatActivity {
             }
         }
 
-        /**
+
+    /**
          * View pager adapter
          */
         public class MyViewPagerAdapter extends PagerAdapter {

@@ -49,6 +49,20 @@ public class LiveStatisticsFragment extends Fragment {
                     ft.commit();
 
                 }
+                if(menuItem.getItemId() == R.id.lpg){
+                    //Toast.makeText(container.getContext(), "Fragmant changing.", Toast.LENGTH_LONG).show();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.add(R.id.frame_gas, new lpgFragment());
+                    ft.commit();
+
+                }
+                if(menuItem.getItemId() == R.id.Smoke){
+                    //Toast.makeText(container.getContext(), "Fragmant changing.", Toast.LENGTH_LONG).show();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.add(R.id.frame_gas, new smokeFragment());
+                    ft.commit();
+
+                }
 
                 return false;
             }

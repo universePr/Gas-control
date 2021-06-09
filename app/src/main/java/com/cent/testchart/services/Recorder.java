@@ -4,6 +4,9 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,9 +15,12 @@ import android.os.Build;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ComponentActivity;
 import androidx.core.app.NotificationCompat;
 
 import com.cent.testchart.App;
@@ -23,22 +29,54 @@ import com.cent.testchart.data.Data;
 import com.cent.testchart.database.Commit2DB;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.util.UUID;
 import static com.cent.testchart.constants.Constants.MyPREFERENCES;
 import static com.cent.testchart.constants.Constants.Phone;
+import static com.cent.testchart.constants.Constants.carbon_monoxide;
 import static com.cent.testchart.constants.Constants.defPhone;
+import static com.cent.testchart.constants.Constants.WARNING_CO_PPM;
+import static com.cent.testchart.constants.Constants.WARNING_LPG_PPM;
+import static com.cent.testchart.constants.Constants.WARNING_SMOKE_PPM;
+import static com.cent.testchart.constants.Constants.tag_co;
+import static com.cent.testchart.constants.Constants.tag_lpg;
+import static com.cent.testchart.constants.Constants.tag_smoke;
 
 public class Recorder extends Service {
 
+    /***///DATABASE
     private com.cent.testchart.database.Commit2DB commit2DB;
+    /***///BLUETOOTH
+    private final String DEVICE_ADDRESS="78:D8:5D:10:1B:C7";
+    private final UUID PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");//Serial Port Service ID
+    private BluetoothDevice device;
+    private BluetoothSocket socket;
+    private OutputStream outputStream;
+    private InputStream inputStream;
+    boolean deviceConnected=false;
+    byte buffer[];
+    int bufferPosition;
 
+
+    /***/
     public Recorder(){
         this.commit2DB = new Commit2DB(App.app_context);
+        if(BTinit())
+        {
+            if(BTconnect())
+            {
+                deviceConnected=true;
+            }
+
+        }
     }
 
     @Override
@@ -87,26 +125,74 @@ public class Recorder extends Service {
         this.sendBroadcast(broadcastIntent);
     }
     private Timer timer;
+    private Timer timer2;
     private TimerTask timerTask;
+    private TimerTask timerTask2;
     private Calendar calendar;
 
     public void startRecorde() {
+        //For Live Statistics
         timer = new Timer();
         timerTask = new TimerTask() {
             public void run() {
                 calendar = Calendar.getInstance();
                 String date = calendar.getTime().toString();
-                commit2DB.insertData(new Data(App.amount_co, date , Constants.tag_co ));
-                commit2DB.insertData(new Data(App.amount_co + 5, date, Constants.tag_lpg ));
-                commit2DB.insertData(new Data(App.amount_co + 10, date, Constants.tag_smoke ));
+                String co;
+                String lpg;
+                String smoke;
 
-                if(App.amount_co > 100){
-                    sendSMS("carbon monoxide");
+                if(deviceConnected) {
+                    lpg = ListenForData();
+                    co  = ListenForData();
+                    smoke = ListenForData();
+
+                    Log.i("statistics--", lpg + "//" + co + "//" + smoke);
+                    App.amount_lpg = Integer.parseInt(lpg);
+                    App.amount_co = Integer.parseInt(co);
+                    App.amount_smoke = Integer.parseInt(smoke);
+
+                    if(App.amount_co > WARNING_CO_PPM){ //Warning 250 ppm
+                        sendSMS(Constants.carbon_monoxide);
+                    }
+                    if(App.amount_co > WARNING_LPG_PPM){ //Warning 250 ppm
+                        sendSMS(Constants.lpg);
+                    }
+                    if(App.amount_co > WARNING_SMOKE_PPM){ //Warning 250 ppm
+                        sendSMS(Constants.smoke);
+                    }
+
+
+                }else{
+                    Log.i("statistics--", "Not connected");
                 }
+
 
             }
         };
-        timer.schedule(timerTask, 1000, 2 * 60 * 1000); //
+        timer.schedule(timerTask, 0); //
+        //For Recorde Statistics
+        timer2 = new Timer();
+        timerTask2 = new TimerTask() {
+            public void run() {
+                calendar = Calendar.getInstance();
+                String date = calendar.getTime().toString();
+                String s;
+                if(deviceConnected) {
+
+
+                    commit2DB.insertData(new Data(App.amount_co, date , Constants.tag_co ));
+                    commit2DB.insertData(new Data(App.amount_lpg, date, Constants.tag_lpg ));
+                    commit2DB.insertData(new Data(App.amount_smoke , date, Constants.tag_smoke ));
+
+
+                }else{
+                    Log.i("statistics--", "In database not connected");
+                }
+
+
+            }
+        };
+        timer2.schedule(timerTask2, 1000, 2 * 60 * 1000); //
     }
 
     private void sendSMS(String gas){
@@ -116,7 +202,7 @@ public class Recorder extends Service {
             smsManager.sendTextMessage(
                     sharedPreferences.getString(Phone, defPhone),
                     null,
-                    "warning for the amount of "+gas+" gas in the air!",
+                    "Warning for the amount of "+gas+" gas in the air!",
                     null,null);
             Log.i("SEND SMS", "Send");
 
@@ -138,6 +224,107 @@ public class Recorder extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    public boolean BTinit() {
+        boolean found=false;
+        BluetoothAdapter bluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null) {
+            Toast.makeText(getApplicationContext(),"Device doesnt Support Bluetooth",Toast.LENGTH_SHORT).show();
+        }
+        if(!bluetoothAdapter.isEnabled())
+        {
+            Intent enableAdapter = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+            startActivity(enableAdapter);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
+        if(bondedDevices.isEmpty())
+        {
+            Toast.makeText(App.app_context, "Please Pair the Device first", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            for (BluetoothDevice iterator : bondedDevices)
+            {
+                if(iterator.getAddress().equals(DEVICE_ADDRESS))
+                {
+                    device=iterator;
+                    found=true;
+                    break;
+                }
+            }
+        }
+        return found;
+    }
+
+    public boolean BTconnect() {
+        boolean connected=true;
+        try {
+            socket = device.createRfcommSocketToServiceRecord(PORT_UUID);
+            socket.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+            connected=false;
+        }
+        if(connected)
+        {
+            try {
+                outputStream=socket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                inputStream=socket.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        return connected;
+    }
+
+    private String ListenForData() {
+        buffer = new byte[1024];
+        String string = "0";
+        int byteCount = 0;
+        boolean isExist = false;
+        while(!isExist) {
+            try {
+                byteCount = inputStream.available();
+                if (byteCount > 0) {
+
+                    byte[] rawBytes = new byte[byteCount];
+                    try {
+                        inputStream.read(rawBytes);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        string = new String(rawBytes,"UTF-8");
+                        if(Integer.parseInt(string) >= 0 )
+                            isExist = true;
+                        else
+                            string = "0";
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return string;
     }
 
     private float readUsage() {

@@ -10,16 +10,21 @@
     android:gravity="bottom"
     android:layoutDirection="ltr"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="20dp"
+
 
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:layout_marginTop="@dimen/margin_card"
+        android:paddingTop="@dimen/padding_item"
         android:id="@+id/nav_header_imageView"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/app_name"/>
+        android:contentDescription="@string/app_name"
+        android:layout_margin="@dimen/margin_card"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"

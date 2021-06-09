@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi;
 
 import com.cent.testchart.database.Commit2DB;
 import com.cent.testchart.fragments.LiveStatisticsFragment;
+import com.cent.testchart.fragments.SmsFragment;
 import com.cent.testchart.fragments.StaticsFragment;
 import com.cent.testchart.services.Recorder;
 import com.google.android.material.navigation.NavigationView;
@@ -37,7 +38,9 @@ public class App extends AppCompatActivity {
 
     public static Context app_context;
 
-    public static int amount_co = 150; //TODO: For share bluetooth data to service
+    public static int amount_co = 0; //TODO: For share bluetooth data to service
+    public static int amount_lpg = 0; //TODO: For share bluetooth data to service
+    public static int amount_smoke = 0; //TODO: For share bluetooth data to service
 
 
     private Toolbar mToolbar;
@@ -60,7 +63,7 @@ public class App extends AppCompatActivity {
         init_permissions();
         init_();
         init_db();
-        init_service();
+
 
 
 
@@ -111,7 +114,15 @@ public class App extends AppCompatActivity {
                     ft.commit();
                     drawerLayout.closeDrawers();
                 }
-
+                if(menuItem.getItemId() == R.id.menu_connect){
+                    init_service();
+                }
+                if(menuItem.getItemId() == R.id.menu_sms){
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, new SmsFragment());
+                    ft.commit();
+                    drawerLayout.closeDrawers();
+                }
                 else if(menuItem.getItemId() == R.id.menu_exit){
                     onBackPressed();
                 }

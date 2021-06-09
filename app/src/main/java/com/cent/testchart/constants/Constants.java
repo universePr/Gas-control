@@ -23,4 +23,9 @@ public class Constants {
     public static final String MyPREFERENCES = "PhoneNumber" ;
     public static final String Phone = "phoneKey";
     public static final String defPhone = "+980000000000";
+
+    //Warning ppm
+    public static final int WARNING_CO_PPM = 225;
+    public static final int WARNING_LPG_PPM = 225;
+    public static final int WARNING_SMOKE_PPM = 225;
 }

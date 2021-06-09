@@ -18,6 +18,7 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.SingleValueDataSet;
 import com.anychart.enums.Anchor;
 import com.anychart.enums.HAlign;
+import com.cent.testchart.App;
 import com.cent.testchart.R;
 
 import java.io.File;
@@ -161,7 +162,7 @@ public class coFragment extends Fragment {
 
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private void addEntry() {
-        double currentValue = readUsage() * 100;
+        double currentValue = App.amount_co;
 
         circularGauge.data((new com.anychart.chart.common.dataentry.SingleValueDataSet(new Double[] { currentValue })));
         circularGauge.label(1)
@@ -199,7 +200,7 @@ public class coFragment extends Fragment {
 
         circularGauge.axis(0).scale()
                 .minimum(0)
-                .maximum(140);
+                .maximum(300);
 
         circularGauge.axis(0).scale()
                 .ticks("{interval: 10}")
@@ -230,7 +231,7 @@ public class coFragment extends Fragment {
         circularGauge.range(0,
                 "{\n" +
                         "    from: 0,\n" +
-                        "    to: 25,\n" +
+                        "    to: 100,\n" +
                         "    position: 'inside',\n" +
                         "    fill: 'green 0.5',\n" +
                         "    stroke: '1 #000',\n" +
@@ -242,8 +243,8 @@ public class coFragment extends Fragment {
 
         circularGauge.range(1,
                 "{\n" +
-                        "    from: 80,\n" +
-                        "    to: 140,\n" +
+                        "    from: 200,\n" +
+                        "    to: 300,\n" +
                         "    position: 'inside',\n" +
                         "    fill: 'red 0.5',\n" +
                         "    stroke: '1 #000',\n" +
