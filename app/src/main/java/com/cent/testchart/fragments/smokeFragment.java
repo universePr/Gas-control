@@ -20,9 +20,9 @@ import com.cent.testchart.App;
 import com.cent.testchart.R;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
+
+import static java.lang.Thread.sleep;
 
 public class smokeFragment extends Fragment {
 
@@ -38,7 +38,7 @@ public class smokeFragment extends Fragment {
         this.container = view;
         init_();
     }
-    com.anychart.charts.CircularGauge circularGauge;
+    com.anychart.charts.CircularGauge cg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,48 +64,17 @@ public class smokeFragment extends Fragment {
 //        int height =  (int) (anyChartView.getLayoutParams().height) - 100;
 //        hidden_v.getLayoutParams().height = height;
 //        Toast.makeText(container.getContext(),  container.getLayoutParams().height + "" , Toast.LENGTH_LONG).show();
-        circularGauge = AnyChart.circular();
+        cg = AnyChart.circular();
+        cg.removeAllPointers();
+        anyChartView.refreshDrawableState();
         settingUpCircularGauge();
-        anyChartView.setChart(circularGauge);
+        anyChartView.setChart(cg);
         anyChartView.setVisibility(View.VISIBLE);
         changeGraph();
 
     }
 
 
-    private float readUsage() {
-        try {
-            RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
-            String load = reader.readLine();
-
-            String[] toks = load.split(" +");  // Split on one or more spaces
-
-            long idle1 = Long.parseLong(toks[4]);
-            long cpu1 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) + Long.parseLong(toks[5])
-                    + Long.parseLong(toks[6]) + Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
-
-            try {
-                Thread.sleep(360);
-            } catch (Exception e) {}
-
-            reader.seek(0);
-            load = reader.readLine();
-            reader.close();
-
-            toks = load.split(" +");
-
-            long idle2 = Long.parseLong(toks[4]);
-            long cpu2 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) + Long.parseLong(toks[5])
-                    + Long.parseLong(toks[6]) + Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
-
-            return (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        return 0;
-    }
     @Override
     public void onResume() {
         super.onResume();
@@ -148,6 +117,7 @@ public class smokeFragment extends Fragment {
                     } catch (InterruptedException e) {
                         // manage error ...
                     }
+                    addEntry();
 
 
                 }
@@ -161,72 +131,73 @@ public class smokeFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private void addEntry() {
         double currentValue = App.amount_smoke;
+       
+            cg.data((new com.anychart.chart.common.dataentry.SingleValueDataSet(new Double[]{currentValue})));
+            cg.label(1)
+                    .text("<span style=\"font-size: 20\">" + df2.format(currentValue) + "</span>")
+                    .useHtml(true)
+                    .hAlign(com.anychart.graphics.vector.text.HAlign.CENTER);
+            cg.label(1)
+                    .anchor(String.valueOf(Anchor.CENTER_TOP))
+                    .offsetY(-150)
+                    .offsetX(8)
+                    .padding(5, 10, 0, 0)
+                    .background("{fill: 'none', stroke: '#fff', corners: 3, cornerType: 'ROUND'}");
 
-        circularGauge.data((new SingleValueDataSet(new Double[] { currentValue })));
-        circularGauge.label(1)
-                .text("<span style=\"font-size: 20\">" + df2.format(currentValue) + "</span>")
-                .useHtml(true)
-                .hAlign(com.anychart.graphics.vector.text.HAlign.CENTER);
-        circularGauge.label(1)
-                .anchor(String.valueOf(Anchor.CENTER_TOP))
-                .offsetY(-150)
-                .offsetX(8)
-                .padding(5, 10, 0, 0)
-                .background("{fill: 'none', stroke: '#fff', corners: 3, cornerType: 'ROUND'}");
     }
 
     private void settingUpCircularGauge(){
-        circularGauge = AnyChart.circular();
-        circularGauge.fill("#fff")
+        cg = AnyChart.circular();
+        cg.fill("#fff")
                 .stroke(null)
                 .padding(0, 0, 0, 0)
                 .margin(20,0,0,0);
-        circularGauge.startAngle(0)
+        cg.startAngle(0)
                 .sweepAngle(360);
 
         double currentValue = 13.8D;
-        circularGauge.data(new SingleValueDataSet(new Double[] { currentValue }));
+        cg.data(new SingleValueDataSet(new Double[] { currentValue }));
 
-        circularGauge.axis(0)
+        cg.axis(0)
                 .startAngle(-150)
                 .radius(80)
                 .sweepAngle(300)
                 .width(3)
                 .ticks("{ type: 'line', length: 4, position: 'outside' }");
 
-        circularGauge.axis(0).labels().position("outside");
+        cg.axis(0).labels().position("outside");
 
-        circularGauge.axis(0).scale()
+        cg.axis(0).scale()
                 .minimum(0)
                 .maximum(300);
 
-        circularGauge.axis(0).scale()
+        cg.axis(0).scale()
                 .ticks("{interval: 10}")
                 .minorTicks("{interval: 10}");
 
-        circularGauge.needle(0)
+        cg.needle(0)
                 .stroke(null)
                 .startRadius("6%")
                 .endRadius("50%")
                 .startWidth("2%")
                 .endWidth(0);
 
-        circularGauge.cap()
+        cg.cap()
                 .radius("4%")
                 .enabled(true)
                 .stroke(null);
 
-        circularGauge.label(0)
+        cg.label(0)
                 .text("<span style=\"font-size: "+ 0 + "\">~</span>")
                 .useHtml(true)
                 .hAlign(String.valueOf(HAlign.CENTER));
-        circularGauge.label(0)
+        cg.label(0)
                 .anchor(Anchor.CENTER_TOP)
                 .offsetY(100)
                 .padding(15, 20, 0, 0);
 
 
-        circularGauge.range(0,
+        cg.range(0,
                 "{\n" +
                         "    from: 0,\n" +
                         "    to: 100,\n" +
@@ -239,7 +210,7 @@ public class smokeFragment extends Fragment {
                         "    zIndex: 1\n" +
                         "  }");
 
-        circularGauge.range(1,
+        cg.range(1,
                 "{\n" +
                         "    from: 200,\n" +
                         "    to: 300,\n" +

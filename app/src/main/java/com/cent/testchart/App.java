@@ -1,6 +1,7 @@
 package com.cent.testchart;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import com.cent.testchart.database.Commit2DB;
 import com.cent.testchart.fragments.LiveStatisticsFragment;
 import com.cent.testchart.fragments.SmsFragment;
 import com.cent.testchart.fragments.StaticsFragment;
+import com.cent.testchart.services.BluetoothService;
 import com.cent.testchart.services.Recorder;
 import com.google.android.material.navigation.NavigationView;
 
@@ -34,13 +36,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.File;
+
 public class App extends AppCompatActivity {
 
     public static Context app_context;
 
-    public static int amount_co = 0; //TODO: For share bluetooth data to service
-    public static int amount_lpg = 0; //TODO: For share bluetooth data to service
-    public static int amount_smoke = 0; //TODO: For share bluetooth data to service
+    public static int amount_co = 0;
+    public static int amount_lpg = 0;
+    public static int amount_smoke = 0;
+    public static boolean deviceConnected = false;
+    public static Activity main_app;
 
 
     private Toolbar mToolbar;
@@ -49,8 +55,10 @@ public class App extends AppCompatActivity {
     private FrameLayout frameLayout;
     private Commit2DB commit2DB;
 
-    Intent mServiceIntent;
-    private Recorder mYourService;
+    Intent recorder_intent;
+    Intent bluetooth_intent;
+    private Recorder recorder;
+    private BluetoothService bluetoothService;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -60,6 +68,7 @@ public class App extends AppCompatActivity {
         setContentView(R.layout.activity_app);
 
         app_context = this;
+        main_app = this;
         init_permissions();
         init_();
         init_db();
@@ -99,7 +108,6 @@ public class App extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                //TODO: Disable one state and two click
                 if(menuItem.getItemId() == R.id.menu_live_statistic){
 
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -142,10 +150,13 @@ public class App extends AppCompatActivity {
 
 
     private void init_service() {
-        mYourService = new Recorder();
-        mServiceIntent = new Intent(this, mYourService.getClass());
-        if (!isMyServiceRunning(mYourService.getClass())) {
-            startService(mServiceIntent);
+        bluetoothService = new BluetoothService();
+        recorder = new Recorder();
+        recorder_intent = new Intent(this, recorder.getClass());
+        bluetooth_intent = new Intent(this, bluetoothService.getClass());
+        if (!isMyServiceRunning(recorder.getClass()) || !isMyServiceRunning(bluetoothService.getClass())) {
+            startService(recorder_intent);
+            startService(bluetooth_intent);
         }
     }
 
@@ -170,7 +181,6 @@ public class App extends AppCompatActivity {
                 this, Manifest.permission.SEND_SMS) ==
                 PackageManager.PERMISSION_GRANTED) {
 
-//            Toast.makeText(this, "Permission granted to send sms", Toast.LENGTH_SHORT).show();
 
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale("android.permission.SEND_SMS")) {
@@ -211,5 +221,27 @@ public class App extends AppCompatActivity {
         ft.commit();
 
     }
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) { e.printStackTrace();}
+    }
 
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
 }

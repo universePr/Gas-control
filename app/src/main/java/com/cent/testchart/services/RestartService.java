@@ -15,8 +15,10 @@ public class RestartService extends BroadcastReceiver {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(new Intent(context, Recorder.class));
+            context.startForegroundService(new Intent(context, BluetoothService.class));
         } else {
             context.startService(new Intent(context, Recorder.class));
+            context.startService(new Intent(context, BluetoothService.class));
         }
     }
 }

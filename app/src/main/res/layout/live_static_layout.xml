@@ -30,7 +30,7 @@
         app:itemIconTint="@color/vector"
         android:layout_gravity="bottom"
         android:layout_alignBottom="@id/frame_gas"
-        app:itemTextColor="@color/vector"
+        app:itemTextColor="@color/tab_selector"
         android:id="@+id/bottom_navigation"
         />
 

@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cent.testchart.App;
 import com.cent.testchart.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,26 +45,29 @@ public class LiveStatisticsFragment extends Fragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 if(menuItem.getItemId() == R.id.co){
-                    //Toast.makeText(container.getContext(), "Fragmant changing.", Toast.LENGTH_LONG).show();
+
+                    menuItem.setChecked(true);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.add(R.id.frame_gas, new coFragment());
                     ft.commit();
 
                 }
                 if(menuItem.getItemId() == R.id.lpg){
-                    //Toast.makeText(container.getContext(), "Fragmant changing.", Toast.LENGTH_LONG).show();
+
+                    menuItem.setChecked(true);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.add(R.id.frame_gas, new lpgFragment());
                     ft.commit();
 
                 }
                 if(menuItem.getItemId() == R.id.Smoke){
-                    //Toast.makeText(container.getContext(), "Fragmant changing.", Toast.LENGTH_LONG).show();
+
+                    menuItem.setChecked(true);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.add(R.id.frame_gas, new smokeFragment());
                     ft.commit();
-
                 }
+
 
                 return false;
             }
