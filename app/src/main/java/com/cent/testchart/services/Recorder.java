@@ -56,13 +56,14 @@ public class Recorder extends Service {
 
     /***/
     public Recorder(){
-        this.commit2DB = new Commit2DB(App.app_context);
+
 
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        this.commit2DB = new Commit2DB(App.app_context);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
             startMyOwnForeground();
         else

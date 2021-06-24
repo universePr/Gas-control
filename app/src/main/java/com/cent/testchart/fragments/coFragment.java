@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.cent.testchart.R;
 import java.io.File;
 import java.text.DecimalFormat;
 
+import static com.cent.testchart.constants.Constants.max_CO_PPM;
 import static java.lang.Thread.sleep;
 
 public class coFragment extends Fragment {
@@ -132,8 +134,8 @@ public class coFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private void addEntry() {
         double currentValue = App.amount_co;
-
-            cg.data((new com.anychart.chart.common.dataentry.SingleValueDataSet(new Double[]{currentValue})));
+        Log.i("amount", App.amount_co + " from co");
+        cg.data((new com.anychart.chart.common.dataentry.SingleValueDataSet(new Double[]{currentValue})));
             cg.label(1)
                     .text("<span style=\"font-size: 20\">" + df2.format(currentValue) + "</span>")
                     .useHtml(true)
@@ -172,7 +174,7 @@ public class coFragment extends Fragment {
 
         cg.axis(0).scale()
                 .minimum(0)
-                .maximum(300);
+                .maximum(max_CO_PPM);
 
         cg.axis(0).scale()
                 .ticks("{interval: 10}")

@@ -38,6 +38,9 @@ import static com.cent.testchart.constants.Constants.defPhone;
 import static com.cent.testchart.constants.Constants.WARNING_CO_PPM;
 import static com.cent.testchart.constants.Constants.WARNING_LPG_PPM;
 import static com.cent.testchart.constants.Constants.WARNING_SMOKE_PPM;
+import static com.cent.testchart.constants.Constants.max_CO_PPM;
+import static com.cent.testchart.constants.Constants.max_LPG_PPM;
+import static com.cent.testchart.constants.Constants.max_SMOKE_PPM;
 
 public class BluetoothService extends Service {
 
@@ -51,6 +54,12 @@ public class BluetoothService extends Service {
     byte buffer[];
 
     public BluetoothService(){
+
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         if(BTinit())
         {
             if(BTconnect())
@@ -60,11 +69,8 @@ public class BluetoothService extends Service {
             }
 
         }
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
+        Log.i("statistics--", App.deviceConnected + " +");
+        Log.i("statistics--", deviceConnected + " +");
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
             startMyOwnForeground();
         else
@@ -121,19 +127,32 @@ public class BluetoothService extends Service {
                 String lpg;
                 String smoke;
 
-                if(App.deviceConnected) {
+                if(deviceConnected) {
                     lpg = ListenForData();
                     co  = ListenForData();
                     smoke = ListenForData();
 
                     Log.i("statistics--", lpg + "//" + co + "//" + smoke);
-                    App.amount_lpg = Integer.parseInt(lpg);
-                    App.amount_co = Integer.parseInt(co);
-                    App.amount_smoke = Integer.parseInt(smoke);
+                    int l = Integer.parseInt(lpg.trim());
+                    int c = Integer.parseInt(co.trim());
+                    int s = Integer.parseInt(smoke.trim());
+                    if(c > max_CO_PPM)
+                        App.amount_co = max_CO_PPM;
+                    else
+                        App.amount_co = c;
+                    if(l > max_LPG_PPM)
+                        App.amount_lpg = max_LPG_PPM;
+                    else
+                        App.amount_lpg = l;
+                    if(s > max_SMOKE_PPM)
+                        App.amount_smoke = max_SMOKE_PPM;
+                    else
+                        App.amount_smoke = s;
 
                     if(App.amount_co > WARNING_CO_PPM){ //Warning 250 ppm
                         sendSMS(Constants.carbon_monoxide);
                     }
+
                     if(App.amount_co > WARNING_LPG_PPM){ //Warning 250 ppm
                         sendSMS(Constants.lpg);
                     }
@@ -149,6 +168,7 @@ public class BluetoothService extends Service {
 
             }
         };
+        timer.schedule(timerTask, 0, 200);
     }
 
     private void sendSMS(String gas){
@@ -250,10 +270,12 @@ public class BluetoothService extends Service {
 
     private String ListenForData() {
         buffer = new byte[1024];
-        String string = "0";
+        String string = "1";
         int byteCount = 0;
         boolean isExist = false;
         while(!isExist) {
+            string = "0";
+            while(!string.contains("*")){
             try {
                 byteCount = inputStream.available();
                 if (byteCount > 0) {
@@ -265,12 +287,20 @@ public class BluetoothService extends Service {
                         e.printStackTrace();
                     }
                     try {
-                        string = new String(rawBytes,"UTF-8");
-                        if(Integer.parseInt(string.trim()) >= 0 )
-                            isExist = true;
-                        else
-                            string = "0";
+                        string = string +  new String(rawBytes,"UTF-8");
 
+                        if(string.contains("*")){
+
+                            char[] characters = string.toCharArray();
+                            string = "";
+                            for (char c: characters) {
+                              if(c != '*'){
+                                  string += c;
+                              }
+                            };
+                            Log.i("str",string+"");
+                            break;
+                        }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -278,6 +308,14 @@ public class BluetoothService extends Service {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+            if(Integer.parseInt(string.trim()) >= 0 )
+                isExist = true;
+            else
+            string = "0";
+
+
         }
 
         return string;

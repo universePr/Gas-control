@@ -28,4 +28,10 @@ public class Constants {
     public static final int WARNING_CO_PPM = 225;
     public static final int WARNING_LPG_PPM = 225;
     public static final int WARNING_SMOKE_PPM = 225;
+
+    //Max
+    public static final int max_CO_PPM = 300;
+    public static final int max_LPG_PPM = 300;
+    public static final int max_SMOKE_PPM = 300;
+
 }

@@ -154,10 +154,10 @@ public class App extends AppCompatActivity {
         recorder = new Recorder();
         recorder_intent = new Intent(this, recorder.getClass());
         bluetooth_intent = new Intent(this, bluetoothService.getClass());
-        if (!isMyServiceRunning(recorder.getClass()) || !isMyServiceRunning(bluetoothService.getClass())) {
+//        if (!isMyServiceRunning(recorder.getClass()) || !isMyServiceRunning(bluetoothService.getClass())) {
             startService(recorder_intent);
             startService(bluetooth_intent);
-        }
+//        }
     }
 
     private boolean isMyServiceRunning(Class serviceClass) {

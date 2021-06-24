@@ -2,6 +2,7 @@ package com.cent.testchart.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.cent.testchart.R;
 import java.io.File;
 import java.text.DecimalFormat;
 
+import static com.cent.testchart.constants.Constants.max_LPG_PPM;
 import static java.lang.Thread.sleep;
 
 public class lpgFragment extends Fragment {
@@ -131,7 +133,7 @@ public class lpgFragment extends Fragment {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private void addEntry() {
         double currentValue = App.amount_lpg;
-
+        Log.i("amount", App.amount_co + " from lpg");
                 cg.data((new com.anychart.chart.common.dataentry.SingleValueDataSet(new Double[]{currentValue})));
                 cg.label(1)
                         .text("<span style=\"font-size: 20\">" + df2.format(currentValue) + "</span>")
@@ -169,7 +171,7 @@ public class lpgFragment extends Fragment {
 
         cg.axis(0).scale()
                 .minimum(0)
-                .maximum(300);
+                .maximum(max_LPG_PPM);
 
         cg.axis(0).scale()
                 .ticks("{interval: 10}")
